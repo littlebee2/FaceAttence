@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-INCPATH       = -I../../../FaceAttence -I. -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I. -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../../../FaceAttence -I. -I/opt/opencv4-pc/include/opencv4 -I/opt/opencv4-pc/include/opencv4/opencv2 -I/opt/opencv4-pc/include -I/opt/opencv4-pc/include/seeta -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I. -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt/6.5.3/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = FaceAttence1.0.0
 DISTDIR = /home/danneil/QtDemo/FaceAttence/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.tmp/FaceAttence1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/6.5.3/gcc_64/lib -Wl,-rpath-link,/opt/Qt/6.5.3/gcc_64/lib
-LIBS          = $(SUBLIBS) /opt/Qt/6.5.3/gcc_64/lib/libQt6Widgets.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Gui.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Core.so -lpthread -lGL   
+LIBS          = $(SUBLIBS) -L/opt/opencv4-pc/lib -lopencv_world -lSeetaFaceDetector -lSeetaFaceLandmarker -lSeetaFaceRecognizer -lSeetaFaceTracker -lSeetaNet -lSeetaQualityAssessor /opt/Qt/6.5.3/gcc_64/lib/libQt6Widgets.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Gui.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Core.so -lpthread -lGL   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -744,9 +744,123 @@ moc_faceattence.cpp: ../../faceattence.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/qnativeinterface.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/opencv.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/opencv_modules.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvdef.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/version.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/cvconfig.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/hal/interface.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cv_cpu_dispatch.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cv_cpu_helper.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/hal/msa_macros.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/fast_math.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/base.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd_wrapper.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/neon_utils.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/vsx_utils.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/check.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/traits.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/matx.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/saturate.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/matx.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/types.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/mat.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/bufferpool.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/mat.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/persistence.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/operations.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utility.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/instrumentation.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/tls.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/optim.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/ovx.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/calib3d.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/features2d.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/miniflann.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/defines.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/config.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/affine.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logger.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logger.defines.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logtag.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dnn.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/async.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/version.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dict.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/layer.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dnn.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/utils/inference_engine.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/flann_base.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/general.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/matrix.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/params.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/any.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/saving.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/nn_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/result_set.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/all_indices.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kdtree_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/dynamic_bitset.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/dist.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/heap.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/allocator.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/random.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kdtree_single_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kmeans_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/logger.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/composite_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/linear_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/hierarchical_clustering_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/lsh_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/lsh_table.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/autotuned_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/ground_truth.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/index_testing.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/timer.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/sampling.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/highgui.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgcodecs.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/videoio.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgproc.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgproc/segmentation.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/ml.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/ml/ml.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_dictionary.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_board.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/graphical_code_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/face.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/charuco_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/barcode.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/photo.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/warpers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/warpers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda_types.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/warpers_inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/matchers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/motion_estimators.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/util.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/util_inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/camera.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/exposure_compensate.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/seam_finders.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/blenders.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video/tracking.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video/background_segm.hpp \
 		moc_predefs.h \
 		/opt/Qt/6.5.3/gcc_64/libexec/moc
-	/opt/Qt/6.5.3/gcc_64/libexec/moc $(DEFINES) --include /home/danneil/QtDemo/FaceAttence/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++ -I/home/danneil/QtDemo/FaceAttence -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../faceattence.h -o moc_faceattence.cpp
+	/opt/Qt/6.5.3/gcc_64/libexec/moc $(DEFINES) --include /home/danneil/QtDemo/FaceAttence/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++ -I/home/danneil/QtDemo/FaceAttence -I/opt/opencv4-pc/include/opencv4 -I/opt/opencv4-pc/include/opencv4/opencv2 -I/opt/opencv4-pc/include -I/opt/opencv4-pc/include/seeta -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../faceattence.h -o moc_faceattence.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -928,6 +1042,120 @@ main.o: ../../main.cpp ../../faceattence.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/qnativeinterface.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/opencv.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/opencv_modules.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvdef.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/version.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/cvconfig.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/hal/interface.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cv_cpu_dispatch.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cv_cpu_helper.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/hal/msa_macros.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/fast_math.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/base.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd_wrapper.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/neon_utils.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/vsx_utils.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/check.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/traits.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/matx.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/saturate.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/matx.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/types.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/mat.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/bufferpool.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/mat.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/persistence.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/operations.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utility.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/instrumentation.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/tls.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/optim.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/ovx.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/calib3d.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/features2d.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/miniflann.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/defines.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/config.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/affine.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logger.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logger.defines.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logtag.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dnn.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/async.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/version.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dict.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/layer.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dnn.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/utils/inference_engine.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/flann_base.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/general.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/matrix.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/params.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/any.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/saving.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/nn_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/result_set.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/all_indices.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kdtree_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/dynamic_bitset.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/dist.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/heap.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/allocator.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/random.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kdtree_single_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kmeans_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/logger.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/composite_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/linear_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/hierarchical_clustering_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/lsh_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/lsh_table.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/autotuned_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/ground_truth.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/index_testing.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/timer.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/sampling.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/highgui.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgcodecs.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/videoio.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgproc.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgproc/segmentation.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/ml.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/ml/ml.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_dictionary.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_board.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/graphical_code_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/face.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/charuco_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/barcode.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/photo.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/warpers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/warpers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda_types.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/warpers_inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/matchers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/motion_estimators.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/util.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/util_inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/camera.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/exposure_compensate.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/seam_finders.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/blenders.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video/tracking.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video/background_segm.hpp \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1111,6 +1339,120 @@ faceattence.o: ../../faceattence.cpp ../../faceattence.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/qnativeinterface.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/opencv.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/opencv_modules.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvdef.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/version.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/cvconfig.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/hal/interface.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cv_cpu_dispatch.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cv_cpu_helper.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/hal/msa_macros.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/fast_math.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/base.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd_wrapper.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/neon_utils.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/vsx_utils.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/check.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/traits.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/matx.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/saturate.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/matx.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/types.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/mat.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/bufferpool.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/mat.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/persistence.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/operations.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cvstd.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utility.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/instrumentation.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/tls.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/optim.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/ovx.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/calib3d.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/features2d.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/miniflann.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/defines.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/config.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/affine.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logger.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logger.defines.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/utils/logtag.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dnn.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/async.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/version.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dict.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/layer.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/dnn.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/dnn/utils/inference_engine.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/flann_base.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/general.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/matrix.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/params.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/any.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/saving.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/nn_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/result_set.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/all_indices.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kdtree_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/dynamic_bitset.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/dist.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/heap.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/allocator.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/random.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kdtree_single_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/kmeans_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/logger.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/composite_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/linear_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/hierarchical_clustering_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/lsh_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/lsh_table.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/autotuned_index.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/ground_truth.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/index_testing.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/timer.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/flann/sampling.h \
+		/opt/opencv4-pc/include/opencv4/opencv2/highgui.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgcodecs.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/videoio.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgproc.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/imgproc/segmentation.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/ml.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/ml/ml.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_dictionary.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/aruco_board.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/graphical_code_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/face.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/charuco_detector.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/objdetect/barcode.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/photo.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/warpers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/warpers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda_types.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/core/cuda.inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/warpers_inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/matchers.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/motion_estimators.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/util.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/util_inl.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/camera.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/exposure_compensate.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/seam_finders.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/stitching/detail/blenders.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video/tracking.hpp \
+		/opt/opencv4-pc/include/opencv4/opencv2/video/background_segm.hpp \
 		ui_faceattence.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/QVariant \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QApplication \
@@ -1146,7 +1488,14 @@ faceattence.o: ../../faceattence.cpp ../../faceattence.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qframe.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtGui/qpicture.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtGui/qtextoption.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QSpacerItem \
+		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QVBoxLayout \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o faceattence.o ../../faceattence.cpp
 

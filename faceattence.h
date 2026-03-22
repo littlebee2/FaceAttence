@@ -2,7 +2,9 @@
 #define FACEATTENCE_H
 
 #include <QMainWindow>
+#include <opencv.hpp>
 
+using namespace cv;
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class FaceAttence;
@@ -17,7 +19,13 @@ public:
     FaceAttence(QWidget *parent = nullptr);
     ~FaceAttence();
 
+    //timer event
+    void timerEvent(QTimerEvent *e);
+
 private:
     Ui::FaceAttence *ui;
+
+    //shexiangtou
+    VideoCapture cap;
 };
 #endif // FACEATTENCE_H
