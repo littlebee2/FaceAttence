@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>load.png</file>
+        <file>true.png</file>
+        <file>Circle.png</file>
+    </qresource>
+</RCC>
