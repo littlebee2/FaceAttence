@@ -112,7 +112,7 @@ color: rgb(255, 255, 255);</string>
       <rect>
        <x>90</x>
        <y>60</y>
-       <width>266</width>
+       <width>261</width>
        <height>266</height>
       </rect>
      </property>
@@ -194,7 +194,7 @@ QWidget#head_Lb{
       <string/>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -224,7 +224,7 @@ QLineEdit{
 		font: 16pt &quot;Sans Serif&quot;;
 }</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>1</x>

@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -D_REENTRANT $(DEFINES)
-INCPATH       = -I../../../FaceAttence -I. -I/opt/opencv4-pc/include/opencv4 -I/opt/opencv4-pc/include/opencv4/opencv2 -I/opt/opencv4-pc/include -I/opt/opencv4-pc/include/seeta -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I. -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../../../FaceAttence -I. -I/opt/opencv4-pc/include/opencv4 -I/opt/opencv4-pc/include/opencv4/opencv2 -I/opt/opencv4-pc/include -I/opt/opencv4-pc/include/seeta -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtNetwork -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I. -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt/6.5.3/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = FaceAttence1.0.0
 DISTDIR = /home/danneil/QtDemo/FaceAttence/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.tmp/FaceAttence1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/6.5.3/gcc_64/lib -Wl,-rpath-link,/opt/Qt/6.5.3/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/opt/opencv4-pc/lib -lopencv_world -lSeetaFaceDetector -lSeetaFaceLandmarker -lSeetaFaceRecognizer -lSeetaFaceTracker -lSeetaNet -lSeetaQualityAssessor /opt/Qt/6.5.3/gcc_64/lib/libQt6Widgets.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Gui.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Core.so -lpthread -lGL   
+LIBS          = $(SUBLIBS) -L/opt/opencv4-pc/lib -lopencv_world -lSeetaFaceDetector -lSeetaFaceLandmarker -lSeetaFaceRecognizer -lSeetaFaceTracker -lSeetaNet -lSeetaQualityAssessor /opt/Qt/6.5.3/gcc_64/lib/libQt6Widgets.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Gui.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Network.so /opt/Qt/6.5.3/gcc_64/lib/libQt6Core.so -lpthread -lGL   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -370,6 +370,7 @@ Makefile: ../../FaceAttence.pro /opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++/qmake.con
 		../../image.qrc \
 		/opt/Qt/6.5.3/gcc_64/lib/libQt6Widgets.prl \
 		/opt/Qt/6.5.3/gcc_64/lib/libQt6Gui.prl \
+		/opt/Qt/6.5.3/gcc_64/lib/libQt6Network.prl \
 		/opt/Qt/6.5.3/gcc_64/lib/libQt6Core.prl
 	$(QMAKE) -o Makefile ../../FaceAttence.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /opt/Qt/6.5.3/gcc_64/mkspecs/features/spec_pre.prf:
@@ -523,6 +524,7 @@ Makefile: ../../FaceAttence.pro /opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++/qmake.con
 ../../image.qrc:
 /opt/Qt/6.5.3/gcc_64/lib/libQt6Widgets.prl:
 /opt/Qt/6.5.3/gcc_64/lib/libQt6Gui.prl:
+/opt/Qt/6.5.3/gcc_64/lib/libQt6Network.prl:
 /opt/Qt/6.5.3/gcc_64/lib/libQt6Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../../FaceAttence.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -858,9 +860,19 @@ moc_faceattence.cpp: ../../faceattence.h \
 		/opt/opencv4-pc/include/opencv4/opencv2/video.hpp \
 		/opt/opencv4-pc/include/opencv4/opencv2/video/tracking.hpp \
 		/opt/opencv4-pc/include/opencv4/opencv2/video/background_segm.hpp \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/QTcpSocket \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetworkexports.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qhostaddress.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/QTimer \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/qbasictimer.h \
 		moc_predefs.h \
 		/opt/Qt/6.5.3/gcc_64/libexec/moc
-	/opt/Qt/6.5.3/gcc_64/libexec/moc $(DEFINES) --include /home/danneil/QtDemo/FaceAttence/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++ -I/home/danneil/QtDemo/FaceAttence -I/opt/opencv4-pc/include/opencv4 -I/opt/opencv4-pc/include/opencv4/opencv2 -I/opt/opencv4-pc/include -I/opt/opencv4-pc/include/seeta -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../faceattence.h -o moc_faceattence.cpp
+	/opt/Qt/6.5.3/gcc_64/libexec/moc $(DEFINES) --include /home/danneil/QtDemo/FaceAttence/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.5.3/gcc_64/mkspecs/linux-g++ -I/home/danneil/QtDemo/FaceAttence -I/opt/opencv4-pc/include/opencv4 -I/opt/opencv4-pc/include/opencv4/opencv2 -I/opt/opencv4-pc/include -I/opt/opencv4-pc/include/seeta -I/opt/Qt/6.5.3/gcc_64/include -I/opt/Qt/6.5.3/gcc_64/include/QtWidgets -I/opt/Qt/6.5.3/gcc_64/include/QtGui -I/opt/Qt/6.5.3/gcc_64/include/QtNetwork -I/opt/Qt/6.5.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../faceattence.h -o moc_faceattence.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1156,6 +1168,16 @@ main.o: ../../main.cpp ../../faceattence.h \
 		/opt/opencv4-pc/include/opencv4/opencv2/video.hpp \
 		/opt/opencv4-pc/include/opencv4/opencv2/video/tracking.hpp \
 		/opt/opencv4-pc/include/opencv4/opencv2/video/background_segm.hpp \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/QTcpSocket \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetworkexports.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qhostaddress.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/QTimer \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/qbasictimer.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1453,6 +1475,16 @@ faceattence.o: ../../faceattence.cpp ../../faceattence.h \
 		/opt/opencv4-pc/include/opencv4/opencv2/video.hpp \
 		/opt/opencv4-pc/include/opencv4/opencv2/video/tracking.hpp \
 		/opt/opencv4-pc/include/opencv4/opencv2/video/background_segm.hpp \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/QTcpSocket \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qtnetworkexports.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtNetwork/qhostaddress.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/QTimer \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/6.5.3/gcc_64/include/QtCore/qbasictimer.h \
 		ui_faceattence.h \
 		/opt/Qt/6.5.3/gcc_64/include/QtCore/QVariant \
 		/opt/Qt/6.5.3/gcc_64/include/QtWidgets/QApplication \

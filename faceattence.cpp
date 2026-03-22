@@ -1,6 +1,6 @@
 #include "faceattence.h"
 #include "ui_faceattence.h"
-
+#include <QDebug>
 FaceAttence::FaceAttence(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::FaceAttence)
@@ -15,6 +15,16 @@ FaceAttence::FaceAttence(QWidget *parent)
 
     //导入级联分类器文件
     cascade.load("/home/danneil/opencv/opencv/data/haarcascades/haarcascade_frontalface_alt2.xml");
+
+    //QTcpSocket当断开连接的时候会disconnected()信号，连接成功会connected()信号，连接失败会error()信号
+     connect(&msocket,&QTcpSocket::connected,this,&FaceAttence::stop_connect);
+     connect(&msocket,&QTcpSocket::disconnected,this,&FaceAttence::start_connect);
+    //  connect(&msocket,&QTcpSocket::error,this,&FaceAttence::error_connect);
+
+    //定时器连接服务器
+    connect(&mtimer,&QTimer::timeout,this,&FaceAttence::timer_connect);
+    //启动定时器
+    mtimer.start(5000);//每隔5秒连接一次服务器,连接成功就不再连接
 }
 
 FaceAttence::~FaceAttence()
@@ -48,8 +58,18 @@ void FaceAttence::timerEvent(QTimerEvent *e)
     if(facesRects.size() > 0)//如果检测到人脸
     {
         Rect faceRect = facesRects[0];//取第一个人脸数据
-        rectangle(srcImage,faceRect,Scalar(0,255,0),2);//画
+        // rectangle(srcImage,faceRect,Scalar(0,255,0),2);//画
+
+        //移动人脸框(图片-QLable)
+        ui->headpicLb->move(faceRect.x,faceRect.y);
     }
+    else
+    {
+        //没检测到人脸，qlab放在中间
+        ui->headpicLb->move(100,60);
+    }
+
+
     if(srcImage.data == nullptr)
         return;
     //将opencv(BGR)转化为qt(rgb)格式
@@ -58,4 +78,23 @@ void FaceAttence::timerEvent(QTimerEvent *e)
     QImage image(srcImage.data,srcImage.cols,srcImage.rows,srcImage.step1(),QImage::Format_RGB888);
     QPixmap mmp = QPixmap::fromImage(image);
     ui->vdieoLb->setPixmap(mmp);
+}
+
+
+void FaceAttence::timer_connect()
+{
+    msocket.connectToHost("192.168.239.1",9999);
+    qDebug() << "正在连接服务器...";
+}
+
+void FaceAttence::stop_connect()
+{
+    mtimer.stop();
+    qDebug() << "连接成功，停止定时器";
+}
+
+void FaceAttence::start_connect()
+{
+    mtimer.start(5000);
+    qDebug() << "连接断开，重新启动定时器";
 }

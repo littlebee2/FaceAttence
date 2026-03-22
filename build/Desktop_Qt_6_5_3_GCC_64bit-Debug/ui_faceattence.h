@@ -39,16 +39,16 @@ public:
     QWidget *widget_3;
     QLabel *tital_Lb;
     QLabel *head_Lb;
-    QWidget *widget1;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QWidget *widget_4;
-    QWidget *widget2;
+    QWidget *layoutWidget1;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_6;
     QSpacerItem *horizontalSpacer_3;
     QLineEdit *lineEdit;
     QWidget *widget_5;
-    QWidget *layoutWidget;
+    QWidget *layoutWidget2;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_7;
     QSpacerItem *horizontalSpacer_4;
@@ -116,7 +116,7 @@ public:
 
         headpicLb = new QLabel(widget);
         headpicLb->setObjectName("headpicLb");
-        headpicLb->setGeometry(QRect(90, 60, 266, 266));
+        headpicLb->setGeometry(QRect(90, 60, 261, 266));
         headpicLb->setStyleSheet(QString::fromUtf8("image: url(:/Circle.png);"));
         vdieoLb = new QLabel(widget);
         vdieoLb->setObjectName("vdieoLb");
@@ -148,13 +148,13 @@ public:
         head_Lb = new QLabel(widget_3);
         head_Lb->setObjectName("head_Lb");
         head_Lb->setGeometry(QRect(90, 60, 150, 150));
-        widget1 = new QWidget(widget_3);
-        widget1->setObjectName("widget1");
-        widget1->setGeometry(QRect(10, 210, 301, 241));
-        verticalLayout = new QVBoxLayout(widget1);
+        layoutWidget = new QWidget(widget_3);
+        layoutWidget->setObjectName("layoutWidget");
+        layoutWidget->setGeometry(QRect(10, 210, 301, 241));
+        verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        widget_4 = new QWidget(widget1);
+        widget_4 = new QWidget(layoutWidget);
         widget_4->setObjectName("widget_4");
         widget_4->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "		border:1px solid #313236;\n"
@@ -172,13 +172,13 @@ public:
 "		color: rgb(255,255,255);\n"
 "		font: 16pt \"Sans Serif\";\n"
 "}"));
-        widget2 = new QWidget(widget_4);
-        widget2->setObjectName("widget2");
-        widget2->setGeometry(QRect(1, 6, 261, 41));
-        horizontalLayout_2 = new QHBoxLayout(widget2);
+        layoutWidget1 = new QWidget(widget_4);
+        layoutWidget1->setObjectName("layoutWidget1");
+        layoutWidget1->setGeometry(QRect(1, 6, 261, 41));
+        horizontalLayout_2 = new QHBoxLayout(layoutWidget1);
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_6 = new QLabel(widget2);
+        label_6 = new QLabel(layoutWidget1);
         label_6->setObjectName("label_6");
 
         horizontalLayout_2->addWidget(label_6);
@@ -187,7 +187,7 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer_3);
 
-        lineEdit = new QLineEdit(widget2);
+        lineEdit = new QLineEdit(layoutWidget1);
         lineEdit->setObjectName("lineEdit");
         lineEdit->setEnabled(false);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -201,7 +201,7 @@ public:
 
         verticalLayout->addWidget(widget_4);
 
-        widget_5 = new QWidget(widget1);
+        widget_5 = new QWidget(layoutWidget);
         widget_5->setObjectName("widget_5");
         widget_5->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "		border:1px solid #313236;\n"
@@ -219,13 +219,13 @@ public:
 "		color: rgb(255,255,255);\n"
 "		font: 16pt \"Sans Serif\";\n"
 "}"));
-        layoutWidget = new QWidget(widget_5);
-        layoutWidget->setObjectName("layoutWidget");
-        layoutWidget->setGeometry(QRect(1, 6, 261, 41));
-        horizontalLayout_3 = new QHBoxLayout(layoutWidget);
+        layoutWidget2 = new QWidget(widget_5);
+        layoutWidget2->setObjectName("layoutWidget2");
+        layoutWidget2->setGeometry(QRect(1, 6, 261, 41));
+        horizontalLayout_3 = new QHBoxLayout(layoutWidget2);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
-        label_7 = new QLabel(layoutWidget);
+        label_7 = new QLabel(layoutWidget2);
         label_7->setObjectName("label_7");
 
         horizontalLayout_3->addWidget(label_7);
@@ -234,7 +234,7 @@ public:
 
         horizontalLayout_3->addItem(horizontalSpacer_4);
 
-        lineEdit_2 = new QLineEdit(layoutWidget);
+        lineEdit_2 = new QLineEdit(layoutWidget2);
         lineEdit_2->setObjectName("lineEdit_2");
         lineEdit_2->setEnabled(false);
         sizePolicy.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
@@ -245,7 +245,7 @@ public:
 
         verticalLayout->addWidget(widget_5);
 
-        widget_6 = new QWidget(widget1);
+        widget_6 = new QWidget(layoutWidget);
         widget_6->setObjectName("widget_6");
         widget_6->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "		border:1px solid #313236;\n"
@@ -289,7 +289,7 @@ public:
 
         verticalLayout->addWidget(widget_6);
 
-        widget_7 = new QWidget(widget1);
+        widget_7 = new QWidget(layoutWidget);
         widget_7->setObjectName("widget_7");
         widget_7->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "		border:1px solid #313236;\n"
