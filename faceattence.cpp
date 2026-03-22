@@ -7,11 +7,14 @@ FaceAttence::FaceAttence(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //open
+    //打开摄像头
     cap.open(0);//dev/video
 
-    //start timer
+    //打开定时器
     startTimer(100);
+
+    //导入级联分类器文件
+    cascade.load("/home/danneil/opencv/opencv/data/haarcascades/haarcascade_frontalface_alt2.xml");
 }
 
 FaceAttence::~FaceAttence()
@@ -21,16 +24,37 @@ FaceAttence::~FaceAttence()
 
 void FaceAttence::timerEvent(QTimerEvent *e)
 {
-    //caiji
+    //采集图像
     Mat srcImage;
     if(cap.grab())
     {
-        cap.read(srcImage);//read one frame
+        cap.read(srcImage);//读取一帧图像
+    }
+
+    Mat grayImage;
+    cvtColor(srcImage,grayImage,COLOR_BGR2GRAY);//转化为灰
+
+    //检测人脸数据
+    /*
+        待检测图片
+        存储人脸数据的容器
+        每次缩放的比例
+        每个人脸至少被检测到3次才算是真的人脸
+        0
+        最小人脸尺寸
+    */
+    std::vector<Rect> facesRects;
+    cascade.detectMultiScale(grayImage,facesRects,1.1,3,0,Size(30,30));
+    if(facesRects.size() > 0)//如果检测到人脸
+    {
+        Rect faceRect = facesRects[0];//取第一个人脸数据
+        rectangle(srcImage,faceRect,Scalar(0,255,0),2);//画
     }
     if(srcImage.data == nullptr)
         return;
-    //take opencv(BGR) change qt(rgb)
+    //将opencv(BGR)转化为qt(rgb)格式
     cvtColor(srcImage,srcImage,COLOR_BGR2RGB);
+    //
     QImage image(srcImage.data,srcImage.cols,srcImage.rows,srcImage.step1(),QImage::Format_RGB888);
     QPixmap mmp = QPixmap::fromImage(image);
     ui->vdieoLb->setPixmap(mmp);

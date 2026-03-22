@@ -19,13 +19,16 @@ public:
     FaceAttence(QWidget *parent = nullptr);
     ~FaceAttence();
 
-    //timer event
+    //定时器事件
     void timerEvent(QTimerEvent *e);
 
 private:
     Ui::FaceAttence *ui;
 
-    //shexiangtou
+    //摄像头
     VideoCapture cap;
+
+    //hear - 级联分类器对象
+    cv::CascadeClassifier cascade;
 };
 #endif // FACEATTENCE_H
