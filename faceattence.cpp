@@ -62,6 +62,27 @@ void FaceAttence::timerEvent(QTimerEvent *e)
 
         //移动人脸框(图片-QLable)
         ui->headpicLb->move(faceRect.x,faceRect.y);
+
+        //把Mat数据转化为QbtyeArray数据,-->编码成jpg格式
+
+        std::cvector<uchar> buf;//存储编码后的数据
+        /*
+            待编码的图片
+            编码后的数据
+            编码格式
+        */
+        cv::imencode(".jpg",srcImage,buf);
+
+        //转化为QByteArray
+        QByteArray byte((const char*)buf.data(),buf.size());
+
+        //发送数据
+        quint64 backsize = byte.size();
+        QByteArray sendData;
+        QDataStream stream(&sendData,QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_5_14);
+        stream << backsize << byte;
+        msocket.write(sendData);
     }
     else
     {
