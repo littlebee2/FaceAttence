@@ -29,6 +29,7 @@ private slots:
     void timer_connect();
     void stop_connect();
     void start_connect();
+    void recv_data();
     
 private:
     Ui::FaceAttence *ui;
@@ -42,5 +43,8 @@ private:
     //创建网络套接字，定时器
     QTcpSocket msocket;
     QTimer mtimer;
+
+    //是不是同一个人脸进入到识别区
+    int flag;
 };
 #endif // FACEATTENCE_H

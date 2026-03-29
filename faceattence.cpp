@@ -1,6 +1,7 @@
 #include "faceattence.h"
 #include "ui_faceattence.h"
 #include <QDebug>
+#include <QVector>
 FaceAttence::FaceAttence(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::FaceAttence)
@@ -19,12 +20,15 @@ FaceAttence::FaceAttence(QWidget *parent)
     //QTcpSocket当断开连接的时候会disconnected()信号，连接成功会connected()信号，连接失败会error()信号
      connect(&msocket,&QTcpSocket::connected,this,&FaceAttence::stop_connect);
      connect(&msocket,&QTcpSocket::disconnected,this,&FaceAttence::start_connect);
-    //  connect(&msocket,&QTcpSocket::error,this,&FaceAttence::error_connect);
+     //关联接受数据的槽函数
+     connect(&msocket,&QTcpSocket::readyRead,this,&FaceAttence::recv_data);
 
     //定时器连接服务器
     connect(&mtimer,&QTimer::timeout,this,&FaceAttence::timer_connect);
     //启动定时器
     mtimer.start(5000);//每隔5秒连接一次服务器,连接成功就不再连接
+
+    flag = 0;//初始状态，没人脸进入识别区
 }
 
 FaceAttence::~FaceAttence()
@@ -55,7 +59,7 @@ void FaceAttence::timerEvent(QTimerEvent *e)
     */
     std::vector<Rect> facesRects;
     cascade.detectMultiScale(grayImage,facesRects,1.1,3,0,Size(30,30));
-    if(facesRects.size() > 0)//如果检测到人脸
+    if(facesRects.size() > 0 && flag >= 0)//如果检测到人脸
     {
         Rect faceRect = facesRects[0];//取第一个人脸数据
         // rectangle(srcImage,faceRect,Scalar(0,255,0),2);//画
@@ -63,31 +67,36 @@ void FaceAttence::timerEvent(QTimerEvent *e)
         //移动人脸框(图片-QLable)
         ui->headpicLb->move(faceRect.x,faceRect.y);
 
-        //把Mat数据转化为QbtyeArray数据,-->编码成jpg格式
+        if(flag > 2)
+        {
+            //把Mat数据转化为QbtyeArray数据,-->编码成jpg格式
+            std::vector<uchar> buf;//存储编码后的数据
+            /*
+                待编码的图片
+                编码后的数据
+                编码格式
+            */
+            cv::imencode(".jpg",srcImage,buf);
 
-        std::cvector<uchar> buf;//存储编码后的数据
-        /*
-            待编码的图片
-            编码后的数据
-            编码格式
-        */
-        cv::imencode(".jpg",srcImage,buf);
+            //转化为QByteArray
+            QByteArray byte((const char*)buf.data(),buf.size());
 
-        //转化为QByteArray
-        QByteArray byte((const char*)buf.data(),buf.size());
-
-        //发送数据
-        quint64 backsize = byte.size();
-        QByteArray sendData;
-        QDataStream stream(&sendData,QIODevice::WriteOnly);
-        stream.setVersion(QDataStream::Qt_5_14);
-        stream << backsize << byte;
-        msocket.write(sendData);
+            //发送数据
+            quint64 backsize = byte.size();
+            QByteArray sendData;
+            QDataStream stream(&sendData,QIODevice::WriteOnly);
+            stream.setVersion(QDataStream::Qt_5_14);
+            stream << backsize << byte;
+            msocket.write(sendData);   
+            flag -= 2;//同一个人脸进入识别区，flag减少
+        }
+        flag++;//同一个人脸进入识别区，flag增加 
     }
-    else
+    if(facesRects.size() == 0)
     {
         //没检测到人脸，qlab放在中间
         ui->headpicLb->move(100,60);
+        flag = 0;//没人脸进入识别区，flag重置
     }
 
 
@@ -104,7 +113,7 @@ void FaceAttence::timerEvent(QTimerEvent *e)
 
 void FaceAttence::timer_connect()
 {
-    msocket.connectToHost("192.168.239.1",9999);
+    msocket.connectToHost("192.168.239.128",9999);
     qDebug() << "正在连接服务器...";
 }
 
@@ -118,4 +127,11 @@ void FaceAttence::start_connect()
 {
     mtimer.start(5000);
     qDebug() << "连接断开，重新启动定时器";
+}
+
+void FaceAttence::recv_data()
+{
+    QString data = msocket.readAll();
+    qDebug() << "接收到数据:" << data;
+    ui->lineEdit->setText(data);
 }
